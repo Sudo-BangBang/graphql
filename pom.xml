@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.howtographql.sample</groupId>
-    <artifactId>hackernews-graphql-java</artifactId>
+    <artifactId>graphql-java</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>hackernews-graphql-java Maven Webapp</name>
+    <name>graphql</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -37,7 +37,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>hackernews-graphql-java</finalName>
+        <finalName>graphql</finalName>
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
