@@ -2,18 +2,18 @@ package com.sudobangbang.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLRootResolver;
 import com.sudobangbang.graphql.model.Link;
-import com.sudobangbang.graphql.repository.LinkRepository;
+import com.sudobangbang.graphql.repository.LinkRepo;
 
 import java.util.List;
 
 public class Query implements GraphQLRootResolver {
-    private final LinkRepository linkRepository;
+    private final LinkRepo linkRepo;
 
-    public Query(LinkRepository linkRepository) {
-        this.linkRepository = linkRepository;
+    public Query(LinkRepo linkRepo) {
+        this.linkRepo = linkRepo;
     }
 
     public List<Link> allLinks() {
-        return linkRepository.getAllLinks();
+        return linkRepo.getAllLinks();
     }
 }
