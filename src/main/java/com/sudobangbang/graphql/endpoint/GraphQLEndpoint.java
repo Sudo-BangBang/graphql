@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.sudobangbang.graphql.repository.LinkRepo;
 import com.sudobangbang.graphql.repository.LinkRepoInMemory;
+import com.sudobangbang.graphql.resolver.Mutation;
 import com.sudobangbang.graphql.resolver.Query;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.SimpleGraphQLServlet;
@@ -21,7 +22,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         LinkRepo linkRepo = new LinkRepoInMemory();
         return SchemaParser.newParser()
                 .file("schema.graphqls") //parse the schema file created earlier
-                .resolvers(new Query(linkRepo))
+                .resolvers(new Query(linkRepo), new Mutation(linkRepo))
                 .build()
                 .makeExecutableSchema();
     }
