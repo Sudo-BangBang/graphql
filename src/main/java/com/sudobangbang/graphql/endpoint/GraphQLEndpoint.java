@@ -11,11 +11,15 @@ import com.sudobangbang.graphql.model.Scalars;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.repository.*;
 import com.sudobangbang.graphql.resolver.*;
+import graphql.ExceptionWhileDataFetching;
+import graphql.GraphQLError;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.GraphQLContext;
 import graphql.servlet.SimpleGraphQLServlet;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @WebServlet(urlPatterns = "/graphql")
@@ -62,5 +66,14 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
                 .orElse(null);
         return new AuthContext(user, request, response);
     }
+
+    @Override
+    protected List<GraphQLError> filterGraphQLErrors(List<GraphQLError> errors) {
+        return errors.stream()
+                .filter(e -> e instanceof ExceptionWhileDataFetching || super.isClientError(e))
+                .map(e -> e instanceof ExceptionWhileDataFetching ? new SanitizedError((ExceptionWhileDataFetching) e) : e)
+                .collect(Collectors.toList());
+    }
+
 }
 
