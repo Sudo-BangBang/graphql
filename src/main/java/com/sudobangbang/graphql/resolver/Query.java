@@ -14,7 +14,8 @@ public class Query implements GraphQLRootResolver {
         this.linkRepo = linkRepo;
     }
 
-    public List<Link> allLinks(LinkFilter filter) {
-        return linkRepo.getAllLinks(filter);
+    public List<Link> allLinks(LinkFilter filter, Number skip, Number first) {
+        return linkRepo.getAllLinks(filter, skip.intValue(), first.intValue());
     }
+
 }

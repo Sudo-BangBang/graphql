@@ -1,5 +1,6 @@
 package com.sudobangbang.graphql.repository;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.LinkFilter;
@@ -29,11 +30,12 @@ public class LinkRepoMongo implements LinkRepo {
     }
 
     @Override
-    public List<Link> getAllLinks(LinkFilter filter) {
+    public List<Link> getAllLinks(LinkFilter filter, int skip, int first) {
         Optional<Bson> mongoFilter = Optional.ofNullable(filter).map(this::buildFilter);
 
         List<Link> allLinks = new ArrayList<>();
-        for (Document doc : mongoFilter.map(links::find).orElseGet(links::find)) {
+        FindIterable<Document> documents = mongoFilter.map(links::find).orElseGet(links::find);
+        for (Document doc : documents.skip(skip).limit(first)) {
             allLinks.add(link(doc));
         }
         return allLinks;
