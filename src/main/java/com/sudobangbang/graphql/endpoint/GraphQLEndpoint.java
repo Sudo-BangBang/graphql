@@ -7,15 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
+import com.sudobangbang.graphql.model.Scalars;
 import com.sudobangbang.graphql.model.User;
-import com.sudobangbang.graphql.repository.LinkRepo;
-import com.sudobangbang.graphql.repository.LinkRepoMongo;
-import com.sudobangbang.graphql.repository.UserRepo;
-import com.sudobangbang.graphql.repository.UserRepoMongo;
-import com.sudobangbang.graphql.resolver.LinkResolver;
-import com.sudobangbang.graphql.resolver.Mutation;
-import com.sudobangbang.graphql.resolver.Query;
-import com.sudobangbang.graphql.resolver.SigninResolver;
+import com.sudobangbang.graphql.repository.*;
+import com.sudobangbang.graphql.resolver.*;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.GraphQLContext;
 import graphql.servlet.SimpleGraphQLServlet;
@@ -28,6 +23,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static final LinkRepo linkRepo;
     private static final UserRepo userRepo;
+    private static final VoteRepo voteRepo;
 
     static {
         //TODO I should probably fix the db name, but I don't want to lose all my data
@@ -35,6 +31,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         MongoDatabase mongo = new MongoClient().getDatabase("gaphql_tutorial");
         linkRepo = new LinkRepoMongo(mongo.getCollection("links"));
         userRepo = new UserRepoMongo(mongo.getCollection("users"));
+        voteRepo = new VoteRepoMongo(mongo.getCollection("votes"));
     }
 
     public GraphQLEndpoint() {
@@ -46,9 +43,11 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
             .file("schema.graphqls") //parse the schema file created earlier
             .resolvers(
                 new Query(linkRepo),
-                new Mutation(linkRepo, userRepo),
+                new Mutation(linkRepo, userRepo, voteRepo),
                 new SigninResolver(),
-                new LinkResolver(userRepo))
+                new LinkResolver(userRepo),
+                new VoteResolver(linkRepo, userRepo))
+            .scalars(Scalars.dateTime)
             .build()
             .makeExecutableSchema();
     }
