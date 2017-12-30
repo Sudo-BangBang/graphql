@@ -27,7 +27,14 @@ public class LinkRepoMongo implements LinkRepo {
     public List<Link> getAllLinks() {
         List<Link> allLinks = new ArrayList<>();
         for (Document doc : links.find()) {
-            allLinks.add(link(doc));
+            //TODO im going to assume the tutorial has not used the link function for a good reason and the findById will get updated later
+            Link link = new Link(
+                    doc.get("_id").toString(),
+                    doc.getString("url"),
+                    doc.getString("description"),
+                    doc.getString("postedBy")
+            );
+            allLinks.add(link);
         }
         return allLinks;
     }
@@ -37,6 +44,7 @@ public class LinkRepoMongo implements LinkRepo {
         Document doc = new Document();
         doc.append("url", link.getUrl());
         doc.append("description", link.getDescription());
+        doc.append("postedBy", link.getUserId());
         links.insertOne(doc);
     }
 
