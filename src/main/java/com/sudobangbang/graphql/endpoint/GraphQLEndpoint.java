@@ -29,6 +29,8 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private static final UserRepo userRepo;
     private static final VoteRepo voteRepo;
 
+    //TODO graphql-java does not currently support subscriptions, update when support is added
+
     static {
         //TODO I should probably fix the db name, but I don't want to lose all my data
         //If I do change it, remember to update the hardcoded auth token in index.html

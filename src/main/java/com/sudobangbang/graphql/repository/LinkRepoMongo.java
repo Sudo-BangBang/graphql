@@ -2,13 +2,18 @@ package com.sudobangbang.graphql.repository;
 
 import com.mongodb.client.MongoCollection;
 import com.sudobangbang.graphql.model.Link;
+import com.sudobangbang.graphql.model.LinkFilter;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.regex;
 
 public class LinkRepoMongo implements LinkRepo {
     private final MongoCollection<Document> links;
@@ -24,17 +29,12 @@ public class LinkRepoMongo implements LinkRepo {
     }
 
     @Override
-    public List<Link> getAllLinks() {
+    public List<Link> getAllLinks(LinkFilter filter) {
+        Optional<Bson> mongoFilter = Optional.ofNullable(filter).map(this::buildFilter);
+
         List<Link> allLinks = new ArrayList<>();
-        for (Document doc : links.find()) {
-            //TODO im going to assume the tutorial has not used the link function for a good reason and the findById will get updated later
-            Link link = new Link(
-                    doc.get("_id").toString(),
-                    doc.getString("url"),
-                    doc.getString("description"),
-                    doc.getString("postedBy")
-            );
-            allLinks.add(link);
+        for (Document doc : mongoFilter.map(links::find).orElseGet(links::find)) {
+            allLinks.add(link(doc));
         }
         return allLinks;
     }
@@ -48,10 +48,29 @@ public class LinkRepoMongo implements LinkRepo {
         links.insertOne(doc);
     }
 
+    //builds a Bson from a LinkFilter
+    private Bson buildFilter(LinkFilter filter) {
+        String descriptionPattern = filter.getDescriptionContains();
+        String urlPattern = filter.getUrlContains();
+        Bson descriptionCondition = null;
+        Bson urlCondition = null;
+        if (descriptionPattern != null && !descriptionPattern.isEmpty()) {
+            descriptionCondition = regex("description", ".*" + descriptionPattern + ".*", "i");
+        }
+        if (urlPattern != null && !urlPattern.isEmpty()) {
+            urlCondition = regex("url", ".*" + urlPattern + ".*", "i");
+        }
+        if (descriptionCondition != null && urlCondition != null) {
+            return and(descriptionCondition, urlCondition);
+        }
+        return descriptionCondition != null ? descriptionCondition : urlCondition;
+    }
+
     private Link link(Document doc) {
         return new Link(
                 doc.get("_id").toString(),
                 doc.getString("url"),
-                doc.getString("description"));
+                doc.getString("description"),
+                doc.getString("postedBy"));
     }
 }

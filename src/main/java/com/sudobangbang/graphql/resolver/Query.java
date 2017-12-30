@@ -2,6 +2,7 @@ package com.sudobangbang.graphql.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLRootResolver;
 import com.sudobangbang.graphql.model.Link;
+import com.sudobangbang.graphql.model.LinkFilter;
 import com.sudobangbang.graphql.repository.LinkRepo;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class Query implements GraphQLRootResolver {
         this.linkRepo = linkRepo;
     }
 
-    public List<Link> allLinks() {
-        return linkRepo.getAllLinks();
+    public List<Link> allLinks(LinkFilter filter) {
+        return linkRepo.getAllLinks(filter);
     }
 }
