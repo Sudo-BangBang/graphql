@@ -1,13 +1,13 @@
 package com.sudobangbang.graphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.model.Vote;
 import com.sudobangbang.graphql.repository.LinkRepo;
 import com.sudobangbang.graphql.repository.UserRepo;
 
-public class VoteResolver implements GraphQLResolver<Vote> {
+//public class VoteResolver implements GraphQLResolver<Vote> {
+public class VoteResolver {
     private final LinkRepo linkRepo;
     private final UserRepo userRepo;
 

@@ -1,6 +1,5 @@
 package com.sudobangbang.graphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLRootResolver;
 import com.sudobangbang.graphql.endpoint.AuthContext;
 import com.sudobangbang.graphql.model.*;
 import com.sudobangbang.graphql.repository.LinkRepo;
@@ -8,12 +7,14 @@ import com.sudobangbang.graphql.repository.UserRepo;
 import com.sudobangbang.graphql.repository.VoteRepo;
 import graphql.GraphQLException;
 import graphql.schema.DataFetchingEnvironment;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLRootContext;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-public class Mutation implements GraphQLRootResolver {
+public class Mutation {
 
     private final LinkRepo linkRepo;
     private final UserRepo userRepo;
@@ -25,8 +26,8 @@ public class Mutation implements GraphQLRootResolver {
         this.voteRepo = voteRepo;
     }
 
-    public Link createLink(String url, String description, DataFetchingEnvironment env) {
-        AuthContext context = env.getContext();
+    @GraphQLMutation
+    public Link createLink(String url, String description, @GraphQLRootContext AuthContext context) {
         Link newLink = new Link(url, description, context.getUser().getId());
         linkRepo.saveLink(newLink);
         return newLink;

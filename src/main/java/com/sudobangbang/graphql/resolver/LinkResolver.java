@@ -1,11 +1,12 @@
 package com.sudobangbang.graphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLResolver;
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.repository.UserRepo;
+import io.leangen.graphql.annotations.GraphQLContext;
+import io.leangen.graphql.annotations.GraphQLQuery;
 
-public class LinkResolver implements GraphQLResolver<Link> {
+public class LinkResolver {
 
     private final UserRepo userRepo;
 
@@ -13,7 +14,8 @@ public class LinkResolver implements GraphQLResolver<Link> {
         this.userRepo = userRepo;
     }
 
-    public User postedBy(Link link) {
+    @GraphQLQuery
+    public User postedBy(@GraphQLContext Link link) {
         if (link.getUserId() == null) {
             return null;
         }

@@ -1,20 +1,24 @@
 package com.sudobangbang.graphql.resolver;
 
-import com.coxautodev.graphql.tools.GraphQLRootResolver;
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.LinkFilter;
 import com.sudobangbang.graphql.repository.LinkRepo;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLQuery;
 
 import java.util.List;
 
-public class Query implements GraphQLRootResolver {
+public class Query {
     private final LinkRepo linkRepo;
 
     public Query(LinkRepo linkRepo) {
         this.linkRepo = linkRepo;
     }
 
-    public List<Link> allLinks(LinkFilter filter, Number skip, Number first) {
+    @GraphQLQuery
+    public List<Link> allLinks(LinkFilter filter,
+                               @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
+                               @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
         return linkRepo.getAllLinks(filter, skip.intValue(), first.intValue());
     }
 

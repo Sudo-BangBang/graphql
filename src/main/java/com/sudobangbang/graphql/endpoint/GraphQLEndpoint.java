@@ -1,6 +1,5 @@
 package com.sudobangbang.graphql.endpoint;
 
-import com.coxautodev.graphql.tools.SchemaParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +15,7 @@ import graphql.GraphQLError;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.GraphQLContext;
 import graphql.servlet.SimpleGraphQLServlet;
+import io.leangen.graphql.GraphQLSchemaGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,18 +44,14 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         super(buildSchema());
     }
 
-    private static GraphQLSchema buildSchema(){
-        return SchemaParser.newParser()
-            .file("schema.graphqls") //parse the schema file created earlier
-            .resolvers(
-                new Query(linkRepo),
-                new Mutation(linkRepo, userRepo, voteRepo),
-                new SigninResolver(),
-                new LinkResolver(userRepo),
-                new VoteResolver(linkRepo, userRepo))
-            .scalars(Scalars.dateTime)
-            .build()
-            .makeExecutableSchema();
+    private static GraphQLSchema buildSchema() {
+        Query query = new Query(linkRepo); //create or inject the service beans
+        LinkResolver linkResolver = new LinkResolver(userRepo);
+        Mutation mutation = new Mutation(linkRepo, userRepo, voteRepo);
+
+        return new GraphQLSchemaGenerator()
+                .withOperationsFromSingletons(query, linkResolver, mutation) //register the beans
+                .generate(); //done :)
     }
 
     @Override
