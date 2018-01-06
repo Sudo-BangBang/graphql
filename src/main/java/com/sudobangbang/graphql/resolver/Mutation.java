@@ -6,7 +6,7 @@ import com.sudobangbang.graphql.repository.LinkRepo;
 import com.sudobangbang.graphql.repository.UserRepo;
 import com.sudobangbang.graphql.repository.VoteRepo;
 import graphql.GraphQLException;
-import graphql.schema.DataFetchingEnvironment;
+import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLRootContext;
 
@@ -26,11 +26,14 @@ public class Mutation {
         this.voteRepo = voteRepo;
     }
 
+    //Using GraphQLArgument can be avoided by adding "-parameters" as a compiler arg
     @GraphQLMutation
-    public Link createLink(String url, String description, @GraphQLRootContext AuthContext context) {
+    public Link createLink(
+            @GraphQLArgument(name = "url", description = "The url of the link") String url,
+            @GraphQLArgument(name = "description") String description,
+            @GraphQLRootContext AuthContext context) {
         Link newLink = new Link(url, description, context.getUser().getId());
-        linkRepo.saveLink(newLink);
-        return newLink;
+        return linkRepo.saveLink(newLink);
     }
 
     public User createUser(String name, AuthData auth){

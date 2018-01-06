@@ -10,5 +10,5 @@ public interface LinkRepo {
 
     Link findById(String id);
 
-    void saveLink(Link link);
+    Link saveLink(Link link);
 }
