@@ -36,12 +36,17 @@ public class Mutation {
         return linkRepo.saveLink(newLink);
     }
 
-    public User createUser(String name, AuthData auth){
+    @GraphQLMutation
+    public User createUser(
+            @GraphQLArgument(name = "name") String name,
+            @GraphQLArgument(name = "auth") AuthData auth){
         User newUser = new User(name, auth.getEmail(), auth.getPassword());
         return userRepo.saveUser(newUser);
     }
 
-    public SigninPayload signinUser(AuthData auth) throws IllegalAccessException {
+    @GraphQLMutation
+    public SigninPayload signinUser(
+            @GraphQLArgument(name = "auth") AuthData auth) throws IllegalAccessException {
         User user = userRepo.findByEmail(auth.getEmail());
         if(user.getPassword().equals(auth.getPassword())){
             return new SigninPayload(user.getId(), user);
@@ -49,7 +54,10 @@ public class Mutation {
         throw new GraphQLException("Invalid credentials");
     }
 
-    public Vote createVote(String linkId, String userId) {
+    @GraphQLMutation
+    public Vote createVote(
+            @GraphQLArgument(name = "linkId") String linkId,
+            @GraphQLArgument(name = "userId") String userId) {
         ZonedDateTime now = Instant.now().atZone(ZoneOffset.UTC);
         return voteRepo.saveVote(new Vote(now, userId, linkId));
     }
