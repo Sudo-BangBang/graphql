@@ -10,6 +10,7 @@ import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.mutation.AuthMutations;
 import com.sudobangbang.graphql.mutation.LinkMutations;
 import com.sudobangbang.graphql.query.LinkQuerys;
+import com.sudobangbang.graphql.query.VoteQuerys;
 import com.sudobangbang.graphql.repository.*;
 import com.sudobangbang.graphql.resolver.*;
 import graphql.ExceptionWhileDataFetching;
@@ -48,6 +49,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static GraphQLSchema buildSchema() {
         LinkQuerys linkQuerys = new LinkQuerys(linkRepo); //create or inject the service beans
+        VoteQuerys voteQuerys = new VoteQuerys(voteRepo);
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
         LinkResolver linkResolver = new LinkResolver(userRepo);
@@ -55,7 +57,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
         return new GraphQLSchemaGenerator()
                 .withOperationsFromSingletons(
-                        linkQuerys,
+                        linkQuerys, voteQuerys,
                         linkMutations, authMutations,
                         linkResolver, voteResolver
                 ).generate();
