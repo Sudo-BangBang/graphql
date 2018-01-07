@@ -1,4 +1,4 @@
-package com.sudobangbang.graphql.resolver;
+package com.sudobangbang.graphql.query;
 
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.LinkFilter;
@@ -8,10 +8,10 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 
 import java.util.List;
 
-public class Query {
+public class LinkQuerys {
     private final LinkRepo linkRepo;
 
-    public Query(LinkRepo linkRepo) {
+    public LinkQuerys(LinkRepo linkRepo) {
         this.linkRepo = linkRepo;
     }
 

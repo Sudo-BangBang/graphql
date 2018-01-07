@@ -1,4 +1,4 @@
-package com.sudobangbang.graphql.resolver;
+package com.sudobangbang.graphql.mutation;
 
 import com.sudobangbang.graphql.model.AuthData;
 import com.sudobangbang.graphql.model.SigninPayload;
