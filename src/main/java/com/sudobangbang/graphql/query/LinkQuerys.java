@@ -16,7 +16,7 @@ public class LinkQuerys {
     }
 
     @GraphQLQuery
-    public List<Link> allLinks(LinkFilter filter,
+    public List<Link> allLinks(@GraphQLArgument(name = "filter") LinkFilter filter,
                                @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
                                @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
         return linkRepo.getAllLinks(filter, skip.intValue(), first.intValue());
