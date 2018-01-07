@@ -22,4 +22,9 @@ public class LinkQuerys {
         return linkRepo.getAllLinks(filter, skip.intValue(), first.intValue());
     }
 
+    @GraphQLQuery
+    public Link getLink(@GraphQLArgument(name = "id") String id){
+        return linkRepo.findById(id);
+    }
+
 }
