@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
+import com.sudobangbang.graphql.model.Blog;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.mutation.AuthMutations;
+import com.sudobangbang.graphql.mutation.BlogMutations;
 import com.sudobangbang.graphql.mutation.LinkMutations;
+import com.sudobangbang.graphql.query.BlogQuerys;
 import com.sudobangbang.graphql.query.LinkQuerys;
 import com.sudobangbang.graphql.query.VoteQuerys;
 import com.sudobangbang.graphql.repository.*;
@@ -31,6 +34,9 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private static final LinkRepo linkRepo;
     private static final UserRepo userRepo;
     private static final VoteRepo voteRepo;
+    private static final BlogRepo blogRepo;
+    private static final PostRepo postRepo;
+    private static final CommentRepo commentRepo;
 
     //TODO graphql-java does not currently support subscriptions, update when support is added
 
@@ -41,6 +47,10 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         linkRepo = new LinkRepoMongo(mongo.getCollection("links"));
         userRepo = new UserRepoMongo(mongo.getCollection("users"));
         voteRepo = new VoteRepoMongo(mongo.getCollection("votes"));
+        blogRepo = new BlogRepoMongo(mongo.getCollection("blogs"));
+        postRepo = new PostRepoMongo(mongo.getCollection("posts"));
+        commentRepo = new CommentRepoMongo(mongo.getCollection("comments"));
+
     }
 
     public GraphQLEndpoint() {
@@ -50,15 +60,17 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private static GraphQLSchema buildSchema() {
         LinkQuerys linkQuerys = new LinkQuerys(linkRepo); //create or inject the service beans
         VoteQuerys voteQuerys = new VoteQuerys(voteRepo);
+        BlogQuerys blogQuerys = new BlogQuerys(blogRepo);
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
+        BlogMutations blogMutations = new BlogMutations(blogRepo);
         LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
         VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
 
         return new GraphQLSchemaGenerator()
                 .withOperationsFromSingletons(
-                    linkQuerys, voteQuerys,
-                    linkMutations, authMutations,
+                    linkQuerys, voteQuerys, blogQuerys,
+                    linkMutations, authMutations, blogMutations,
                     linkResolver, voteResolver
                 ).generate();
     }
