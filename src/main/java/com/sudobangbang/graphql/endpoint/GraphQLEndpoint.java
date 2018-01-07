@@ -48,13 +48,17 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static GraphQLSchema buildSchema() {
         LinkQuerys linkQuerys = new LinkQuerys(linkRepo); //create or inject the service beans
-        LinkResolver linkResolver = new LinkResolver(userRepo);
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
+        LinkResolver linkResolver = new LinkResolver(userRepo);
+        VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
 
         return new GraphQLSchemaGenerator()
-                .withOperationsFromSingletons(linkQuerys, linkResolver, linkMutations, authMutations)
-                .generate();
+                .withOperationsFromSingletons(
+                        linkQuerys,
+                        linkMutations, authMutations,
+                        linkResolver, voteResolver
+                ).generate();
     }
 
     @Override
