@@ -42,12 +42,14 @@ public class LinkRepoMongo implements LinkRepo {
     }
 
     @Override
-    public void saveLink(Link link) {
+    public Link saveLink(Link link) {
         Document doc = new Document();
         doc.append("url", link.getUrl());
         doc.append("description", link.getDescription());
         doc.append("postedBy", link.getUserId());
         links.insertOne(doc);
+
+        return link(doc);
     }
 
     //builds a Bson from a LinkFilter

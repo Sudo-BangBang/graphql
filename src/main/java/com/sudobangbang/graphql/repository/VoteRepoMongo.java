@@ -20,6 +20,16 @@ public class VoteRepoMongo implements VoteRepo {
     }
 
     @Override
+    public List<Vote> getAllVotes() {
+        List<Vote> list = new ArrayList<>();
+
+        for (Document doc : votes.find()) {
+            list.add(vote(doc));
+        }
+        return list;
+    }
+
+    @Override
     public List<Vote> findByUserId(String userId) {
         List<Vote> list = new ArrayList<>();
         for (Document doc : votes.find(eq("userId", userId))) {

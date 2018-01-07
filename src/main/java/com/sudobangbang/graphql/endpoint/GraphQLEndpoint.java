@@ -1,14 +1,16 @@
 package com.sudobangbang.graphql.endpoint;
 
-import com.coxautodev.graphql.tools.SchemaParser;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import com.sudobangbang.graphql.model.Scalars;
 import com.sudobangbang.graphql.model.User;
+import com.sudobangbang.graphql.mutation.AuthMutations;
+import com.sudobangbang.graphql.mutation.LinkMutations;
+import com.sudobangbang.graphql.query.LinkQuerys;
+import com.sudobangbang.graphql.query.VoteQuerys;
 import com.sudobangbang.graphql.repository.*;
 import com.sudobangbang.graphql.resolver.*;
 import graphql.ExceptionWhileDataFetching;
@@ -16,6 +18,7 @@ import graphql.GraphQLError;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.GraphQLContext;
 import graphql.servlet.SimpleGraphQLServlet;
+import io.leangen.graphql.GraphQLSchemaGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,18 +47,20 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         super(buildSchema());
     }
 
-    private static GraphQLSchema buildSchema(){
-        return SchemaParser.newParser()
-            .file("schema.graphqls") //parse the schema file created earlier
-            .resolvers(
-                new Query(linkRepo),
-                new Mutation(linkRepo, userRepo, voteRepo),
-                new SigninResolver(),
-                new LinkResolver(userRepo),
-                new VoteResolver(linkRepo, userRepo))
-            .scalars(Scalars.dateTime)
-            .build()
-            .makeExecutableSchema();
+    private static GraphQLSchema buildSchema() {
+        LinkQuerys linkQuerys = new LinkQuerys(linkRepo); //create or inject the service beans
+        VoteQuerys voteQuerys = new VoteQuerys(voteRepo);
+        LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
+        AuthMutations authMutations = new AuthMutations(userRepo);
+        LinkResolver linkResolver = new LinkResolver(userRepo);
+        VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
+
+        return new GraphQLSchemaGenerator()
+                .withOperationsFromSingletons(
+                        linkQuerys, voteQuerys,
+                        linkMutations, authMutations,
+                        linkResolver, voteResolver
+                ).generate();
     }
 
     @Override
