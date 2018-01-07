@@ -18,12 +18,18 @@ public class VoteQuerys {
     }
 
     @GraphQLQuery
-    public List<Vote> getVotes(@GraphQLArgument(name = "userId") String userId){
-        return voteRepo.findByUserId(userId);
+    public List<Vote> getVotes(@GraphQLArgument(name = "userId") String userId, @GraphQLArgument(name = "linkId") String linkId) {
+        if (userId != null) {
+            return voteRepo.findByUserId(userId);
+        } else if (linkId != null) {
+            return voteRepo.findByLinkId(linkId);
+        }else{
+            return voteRepo.getAllVotes();
+        }
     }
 
     @GraphQLQuery
-    public List<Vote> getMyVotes(@GraphQLRootContext AuthContext context){
+    public List<Vote> getMyVotes(@GraphQLRootContext AuthContext context) {
         return voteRepo.findByUserId(context.getUser().getId());
     }
 }
