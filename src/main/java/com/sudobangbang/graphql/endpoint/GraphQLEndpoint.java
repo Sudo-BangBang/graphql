@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import com.sudobangbang.graphql.model.Scalars;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.repository.*;
 import com.sudobangbang.graphql.resolver.*;
@@ -47,11 +46,12 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private static GraphQLSchema buildSchema() {
         Query query = new Query(linkRepo); //create or inject the service beans
         LinkResolver linkResolver = new LinkResolver(userRepo);
-        Mutation mutation = new Mutation(linkRepo, userRepo, voteRepo);
+        LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
+        AuthMutations authMutations = new AuthMutations(userRepo);
 
         return new GraphQLSchemaGenerator()
-                .withOperationsFromSingletons(query, linkResolver, mutation) //register the beans
-                .generate(); //done :)
+                .withOperationsFromSingletons(query, linkResolver, linkMutations, authMutations)
+                .generate();
     }
 
     @Override
