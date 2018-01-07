@@ -52,14 +52,14 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         VoteQuerys voteQuerys = new VoteQuerys(voteRepo);
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
-        LinkResolver linkResolver = new LinkResolver(userRepo);
+        LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
         VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
 
         return new GraphQLSchemaGenerator()
                 .withOperationsFromSingletons(
-                        linkQuerys, voteQuerys,
-                        linkMutations, authMutations,
-                        linkResolver, voteResolver
+                    linkQuerys, voteQuerys,
+                    linkMutations, authMutations,
+                    linkResolver, voteResolver
                 ).generate();
     }
 
