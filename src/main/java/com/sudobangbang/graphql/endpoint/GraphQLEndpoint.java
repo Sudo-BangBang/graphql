@@ -8,12 +8,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import com.sudobangbang.graphql.model.Blog;
 import com.sudobangbang.graphql.model.User;
-import com.sudobangbang.graphql.mutation.AuthMutations;
-import com.sudobangbang.graphql.mutation.BlogMutations;
-import com.sudobangbang.graphql.mutation.LinkMutations;
-import com.sudobangbang.graphql.query.BlogQuerys;
-import com.sudobangbang.graphql.query.LinkQuerys;
-import com.sudobangbang.graphql.query.VoteQuerys;
+import com.sudobangbang.graphql.mutation.*;
+import com.sudobangbang.graphql.query.*;
 import com.sudobangbang.graphql.repository.*;
 import com.sudobangbang.graphql.resolver.*;
 import graphql.ExceptionWhileDataFetching;
@@ -61,17 +57,23 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         LinkQuerys linkQuerys = new LinkQuerys(linkRepo); //create or inject the service beans
         VoteQuerys voteQuerys = new VoteQuerys(voteRepo);
         BlogQuerys blogQuerys = new BlogQuerys(blogRepo);
+        PostQuerys postQuerys = new PostQuerys(postRepo);
+        CommentQuerys commentQuerys = new CommentQuerys(commentRepo);
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
         BlogMutations blogMutations = new BlogMutations(blogRepo);
+        PostMutations postMutations = new PostMutations(postRepo);
+        CommentMutations commentMutations = new CommentMutations(commentRepo);
         LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
         VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
+        BlogResolver blogResolver = new BlogResolver(postRepo);
+        PostResolver postResolver = new PostResolver(commentRepo, linkRepo);
 
         return new GraphQLSchemaGenerator()
                 .withOperationsFromSingletons(
-                    linkQuerys, voteQuerys, blogQuerys,
-                    linkMutations, authMutations, blogMutations,
-                    linkResolver, voteResolver
+                    linkQuerys, voteQuerys, blogQuerys, postQuerys, commentQuerys,
+                    linkMutations, authMutations, blogMutations, postMutations, commentMutations,
+                    linkResolver, voteResolver, blogResolver, postResolver
                 ).generate();
     }
 

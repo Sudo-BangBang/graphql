@@ -2,6 +2,7 @@ package com.sudobangbang.graphql.query;
 
 import com.sudobangbang.graphql.model.Blog;
 import com.sudobangbang.graphql.repository.BlogRepo;
+import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLQuery;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class BlogQuerys {
     @GraphQLQuery
     public List<Blog> allBlogs() {
         return blogRepo.getAllBlogs();
+    }
+
+    @GraphQLQuery
+    public Blog getBlog(@GraphQLArgument(name = "id") String id){
+        return blogRepo.findById(id);
     }
 
 }

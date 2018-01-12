@@ -4,7 +4,6 @@ import com.sudobangbang.graphql.model.Blog;
 import com.sudobangbang.graphql.repository.BlogRepo;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
-import io.leangen.graphql.annotations.GraphQLRootContext;
 
 public class BlogMutations {
 
