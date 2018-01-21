@@ -104,8 +104,25 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        resp.setStatus(HttpServletResponse.SC_OK);
+        setAccessControlHeaders(req, resp);
+        super.doOptions(req, resp);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        setAccessControlHeaders(req, resp);
+        super.doPost(req, resp);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        setAccessControlHeaders(req, resp);
+        super.doGet(req, resp);
+    }
+
+    private void setAccessControlHeaders(HttpServletRequest req, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
         resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, TRACE, OPTIONS");
         resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,Origin");
