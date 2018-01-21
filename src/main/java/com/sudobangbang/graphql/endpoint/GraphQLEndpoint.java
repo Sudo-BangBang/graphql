@@ -1,5 +1,6 @@
 package com.sudobangbang.graphql.endpoint;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,7 @@ import graphql.servlet.GraphQLContext;
 import graphql.servlet.SimpleGraphQLServlet;
 import io.leangen.graphql.GraphQLSchemaGenerator;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +35,8 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private static final BlogRepo blogRepo;
     private static final PostRepo postRepo;
     private static final CommentRepo commentRepo;
+
+
 
     //TODO graphql-java does not currently support subscriptions, update when support is added
 
@@ -95,6 +99,19 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
                 .map(e -> e instanceof ExceptionWhileDataFetching ? new SanitizedError((ExceptionWhileDataFetching) e) : e)
                 .collect(Collectors.toList());
     }
+
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        resp.setStatus(HttpServletResponse.SC_OK);
+
+        resp.setHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
+        resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, TRACE, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,Origin");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+    }
+
 
 }
 
