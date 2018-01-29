@@ -71,7 +71,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
         VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
         BlogResolver blogResolver = new BlogResolver(postRepo);
-        PostResolver postResolver = new PostResolver(commentRepo, linkRepo);
+        PostResolver postResolver = new PostResolver(commentRepo, linkRepo, blogRepo);
 
         return new GraphQLSchemaGenerator()
                 .withOperationsFromSingletons(
@@ -125,7 +125,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     private void setAccessControlHeaders(HttpServletRequest req, HttpServletResponse resp) {
         resp.setHeader("Access-Control-Allow-Origin", req.getHeader("origin"));
         resp.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, TRACE, OPTIONS");
-        resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,Origin");
+        resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,Origin,Authorization");
         resp.setHeader("Access-Control-Allow-Credentials", "true");
     }
 

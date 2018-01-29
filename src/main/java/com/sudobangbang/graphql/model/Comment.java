@@ -2,7 +2,7 @@ package com.sudobangbang.graphql.model;
 
 import java.time.ZonedDateTime;
 
-public class Comment {
+public class Comment implements CreatedByUser {
     private final String id;
     private final String userId;
     private final String postId;

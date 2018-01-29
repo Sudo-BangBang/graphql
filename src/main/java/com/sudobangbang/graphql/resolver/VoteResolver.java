@@ -1,5 +1,6 @@
 package com.sudobangbang.graphql.resolver;
 
+import com.sudobangbang.graphql.model.CreatedByUser;
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.User;
 import com.sudobangbang.graphql.model.Vote;
@@ -18,8 +19,8 @@ public class VoteResolver {
     }
 
     @GraphQLQuery
-    public User user(@GraphQLContext Vote vote){
-        return userRepo.findById(vote.getUserId());
+    public User user(@GraphQLContext CreatedByUser createdByUser){
+        return userRepo.findById(createdByUser.getUserId());
     }
 
     @GraphQLQuery

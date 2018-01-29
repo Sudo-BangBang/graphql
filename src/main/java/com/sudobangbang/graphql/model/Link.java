@@ -1,6 +1,6 @@
 package com.sudobangbang.graphql.model;
 
-public class Link {
+public class Link implements CreatedByUser{
 
     private final String id;
     private final String url;
