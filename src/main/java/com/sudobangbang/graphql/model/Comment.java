@@ -2,21 +2,21 @@ package com.sudobangbang.graphql.model;
 
 import java.time.ZonedDateTime;
 
-public class Comment implements CreatedByUser {
+public class Comment implements CreatedByUser, HasComments{
     private final String id;
     private final String userId;
-    private final String postId;
+    private final String subjectId;
     private final String text;
     private final ZonedDateTime createdAt;
 
-    public Comment(String userId, String postId, String text, ZonedDateTime createdAt) {
-        this(null, userId, postId, text, createdAt);
+    public Comment(String userId, String subjectId, String text, ZonedDateTime createdAt) {
+        this(null, userId, subjectId, text, createdAt);
     }
 
-    public Comment(String id, String userId, String postId, String text, ZonedDateTime createdAt) {
+    public Comment(String id, String userId, String subjectId, String text, ZonedDateTime createdAt) {
         this.id = id;
         this.userId = userId;
-        this.postId = postId;
+        this.subjectId = subjectId;
         this.text = text;
         this.createdAt = createdAt;
     }
@@ -29,8 +29,8 @@ public class Comment implements CreatedByUser {
         return userId;
     }
 
-    public String getPostId() {
-        return postId;
+    public String getSubjectId() {
+        return subjectId;
     }
 
     public String getText() {

@@ -5,7 +5,7 @@ import com.sudobangbang.graphql.model.Comment;
 import java.util.List;
 
 public interface CommentRepo {
-    List<Comment> findByPostId(String postId);
+    List<Comment> findBySubjectId(String subjectId);
     List<Comment> findByUserId(String userId);
     Comment findById(String commentId);
     Comment saveComment(Comment comment);

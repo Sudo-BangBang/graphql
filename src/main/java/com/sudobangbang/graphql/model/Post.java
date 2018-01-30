@@ -2,7 +2,7 @@ package com.sudobangbang.graphql.model;
 
 import java.time.ZonedDateTime;
 
-public class Post {
+public class Post implements HasComments{
     private final String id;
     private final String blogId;
     private final String linkId;

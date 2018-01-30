@@ -20,9 +20,9 @@ public class CommentRepoMongo implements CommentRepo {
     }
 
     @Override
-    public List<Comment> findByPostId(String postId) {
+    public List<Comment> findBySubjectId(String subjectId) {
         List<Comment> list = new ArrayList<>();
-        for (Document doc : comments.find(eq("postId", postId))) {
+        for (Document doc : comments.find(eq("subjectId", subjectId))) {
             list.add(comment(doc));
         }
         return list;
@@ -47,7 +47,7 @@ public class CommentRepoMongo implements CommentRepo {
     public Comment saveComment(Comment comment) {
         Document doc = new Document();
         doc.append("userId", comment.getUserId());
-        doc.append("postId", comment.getPostId());
+        doc.append("subjectId", comment.getSubjectId());
         doc.append("text", comment.getText());
         doc.append("createdAt", Scalars.dateTime.getCoercing().serialize(comment.getCreatedAt()));
         comments.insertOne(doc);
@@ -59,7 +59,7 @@ public class CommentRepoMongo implements CommentRepo {
         return new Comment(
                 doc.get("_id").toString(),
                 doc.getString("userId"),
-                doc.getString("postId"),
+                doc.getString("subjectId"),
                 doc.getString("text"),
                 ZonedDateTime.parse(doc.getString("createdAt"))
         );

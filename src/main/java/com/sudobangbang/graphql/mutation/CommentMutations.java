@@ -20,10 +20,11 @@ public class CommentMutations {
 
     @GraphQLMutation
     public Comment createComment(
-            @GraphQLArgument(name = "postId") String postId,
+            @GraphQLArgument(name = "subjectId") String subjectId,
             @GraphQLArgument(name = "text") String text,
             @GraphQLRootContext AuthContext context) {
-        Comment newComment= new Comment(context.getUser().getId(), postId, text, Instant.now().atZone(ZoneOffset.UTC));
+        Comment newComment = new Comment(context.getUser().getId(), subjectId, text, Instant.now().atZone(ZoneOffset.UTC));
         return commentRepo.saveComment(newComment);
     }
+
 }

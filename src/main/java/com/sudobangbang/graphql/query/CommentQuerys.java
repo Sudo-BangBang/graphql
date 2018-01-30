@@ -21,8 +21,8 @@ public class CommentQuerys {
     }
 
     @GraphQLQuery
-    public List<Comment> getPostComments(@GraphQLArgument(name = "postId") String postId){
-        return commentRepo.findByPostId(postId);
+    public List<Comment> getPostComments(@GraphQLArgument(name = "subjectId") String subjectId){
+        return commentRepo.findBySubjectId(subjectId);
     }
 
     @GraphQLQuery
