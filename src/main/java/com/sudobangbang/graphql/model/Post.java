@@ -1,8 +1,11 @@
 package com.sudobangbang.graphql.model;
 
+import com.sudobangbang.graphql.model.comment.HasComments;
+import com.sudobangbang.graphql.model.vote.HasVotes;
+
 import java.time.ZonedDateTime;
 
-public class Post implements HasComments{
+public class Post implements HasComments, HasVotes {
     private final String id;
     private final String blogId;
     private final String linkId;

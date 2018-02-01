@@ -2,7 +2,7 @@ package com.sudobangbang.graphql.resolver;
 
 import com.sudobangbang.graphql.model.Link;
 import com.sudobangbang.graphql.model.User;
-import com.sudobangbang.graphql.model.Vote;
+import com.sudobangbang.graphql.model.vote.Vote;
 import com.sudobangbang.graphql.repository.UserRepo;
 import com.sudobangbang.graphql.repository.VoteRepo;
 import io.leangen.graphql.annotations.GraphQLContext;
@@ -34,6 +34,6 @@ public class LinkResolver {
         if (link.getUserId() == null) {
             return new ArrayList<>();
         }
-        return voteRepo.findByLinkId(link.getId());
+        return voteRepo.findBySubjectId(link.getId());
     }
 }

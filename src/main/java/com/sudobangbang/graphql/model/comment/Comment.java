@@ -1,8 +1,11 @@
-package com.sudobangbang.graphql.model;
+package com.sudobangbang.graphql.model.comment;
+
+import com.sudobangbang.graphql.model.CreatedByUser;
+import com.sudobangbang.graphql.model.vote.HasVotes;
 
 import java.time.ZonedDateTime;
 
-public class Comment implements CreatedByUser, HasComments{
+public class Comment implements CreatedByUser, HasComments, HasVotes {
     private final String id;
     private final String userId;
     private final String subjectId;

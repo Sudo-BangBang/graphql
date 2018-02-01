@@ -2,7 +2,7 @@ package com.sudobangbang.graphql.repository;
 
 import com.mongodb.client.MongoCollection;
 import com.sudobangbang.graphql.model.Scalars;
-import com.sudobangbang.graphql.model.Vote;
+import com.sudobangbang.graphql.model.vote.Vote;
 import org.bson.Document;
 
 import java.time.ZonedDateTime;
@@ -39,9 +39,9 @@ public class VoteRepoMongo implements VoteRepo {
     }
 
     @Override
-    public List<Vote> findByLinkId(String linkId) {
+    public List<Vote> findBySubjectId(String subjectId) {
         List<Vote> list = new ArrayList<>();
-        for (Document doc : votes.find(eq("linkId", linkId))) {
+        for (Document doc : votes.find(eq("subjectId", subjectId))) {
             list.add(vote(doc));
         }
         return list;
@@ -51,14 +51,14 @@ public class VoteRepoMongo implements VoteRepo {
     public Vote saveVote(Vote vote) {
         Document doc = new Document();
         doc.append("userId", vote.getUserId());
-        doc.append("linkId", vote.getLinkId());
+        doc.append("subjectId", vote.getSubjectId());
         doc.append("createdAt", Scalars.dateTime.getCoercing().serialize(vote.getCreatedAt()));
         votes.insertOne(doc);
         return new Vote(
                 doc.get("_id").toString(),
                 vote.getCreatedAt(),
                 vote.getUserId(),
-                vote.getLinkId());
+                vote.getSubjectId());
     }
 
     private Vote vote(Document doc) {
@@ -66,7 +66,7 @@ public class VoteRepoMongo implements VoteRepo {
                 doc.get("_id").toString(),
                 ZonedDateTime.parse(doc.getString("createdAt")),
                 doc.getString("userId"),
-                doc.getString("linkId")
+                doc.getString("subjectId")
         );
     }
 }

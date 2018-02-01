@@ -1,6 +1,6 @@
 package com.sudobangbang.graphql.query;
 
-import com.sudobangbang.graphql.model.Comment;
+import com.sudobangbang.graphql.model.comment.Comment;
 import com.sudobangbang.graphql.repository.CommentRepo;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLQuery;

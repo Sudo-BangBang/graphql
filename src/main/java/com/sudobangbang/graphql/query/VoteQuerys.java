@@ -1,7 +1,7 @@
 package com.sudobangbang.graphql.query;
 
 import com.sudobangbang.graphql.endpoint.AuthContext;
-import com.sudobangbang.graphql.model.Vote;
+import com.sudobangbang.graphql.model.vote.Vote;
 import com.sudobangbang.graphql.repository.VoteRepo;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -18,11 +18,11 @@ public class VoteQuerys {
     }
 
     @GraphQLQuery
-    public List<Vote> getVotes(@GraphQLArgument(name = "userId") String userId, @GraphQLArgument(name = "linkId") String linkId) {
+    public List<Vote> getVotes(@GraphQLArgument(name = "userId") String userId, @GraphQLArgument(name = "subjectId") String subjectId) {
         if (userId != null) {
             return voteRepo.findByUserId(userId);
-        } else if (linkId != null) {
-            return voteRepo.findByLinkId(linkId);
+        } else if (subjectId != null) {
+            return voteRepo.findBySubjectId(subjectId);
         }else{
             return voteRepo.getAllVotes();
         }

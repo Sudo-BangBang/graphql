@@ -69,7 +69,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         PostMutations postMutations = new PostMutations(postRepo);
         CommentMutations commentMutations = new CommentMutations(commentRepo);
         LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
-        VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo);
+        VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo, voteRepo);
         BlogResolver blogResolver = new BlogResolver(postRepo);
         PostResolver postResolver = new PostResolver(commentRepo, linkRepo, blogRepo);
 

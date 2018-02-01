@@ -1,11 +1,11 @@
-package com.sudobangbang.graphql.model;
+package com.sudobangbang.graphql.model.comment;
 
 import java.util.List;
 
 public class CommentList {
 
     private final Integer count;
-    private List<Comment> comments;
+    private final List<Comment> comments;
 
     public CommentList(Integer count, List<Comment> comments) {
         this.count = count;

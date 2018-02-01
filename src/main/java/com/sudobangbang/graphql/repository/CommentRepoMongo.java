@@ -1,7 +1,7 @@
 package com.sudobangbang.graphql.repository;
 
 import com.mongodb.client.MongoCollection;
-import com.sudobangbang.graphql.model.Comment;
+import com.sudobangbang.graphql.model.comment.Comment;
 import com.sudobangbang.graphql.model.Scalars;
 import org.bson.Document;
 import org.bson.types.ObjectId;

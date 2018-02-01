@@ -1,4 +1,4 @@
-package com.sudobangbang.graphql.model;
+package com.sudobangbang.graphql.model.vote;
 
 import java.time.ZonedDateTime;
 
@@ -7,17 +7,17 @@ public class Vote {
     private final String id;
     private final ZonedDateTime createdAt;
     private final String  userId;
-    private final String linkId;
+    private final String subjectId;
 
-    public Vote(ZonedDateTime createdAt, String userId, String linkId){
-        this(null, createdAt, userId, linkId);
+    public Vote(ZonedDateTime createdAt, String userId, String subjectId){
+        this(null, createdAt, userId, subjectId);
     }
 
-    public Vote(String id, ZonedDateTime createdAt, String userId, String linkId) {
+    public Vote(String id, ZonedDateTime createdAt, String userId, String subjectId) {
         this.id = id;
         this.createdAt = createdAt;
         this.userId = userId;
-        this.linkId = linkId;
+        this.subjectId = subjectId;
     }
 
     public String getId() {
@@ -32,7 +32,7 @@ public class Vote {
         return userId;
     }
 
-    public String getLinkId() {
-        return linkId;
+    public String getSubjectId() {
+        return subjectId;
     }
 }

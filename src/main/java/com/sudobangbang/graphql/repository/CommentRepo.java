@@ -1,6 +1,6 @@
 package com.sudobangbang.graphql.repository;
 
-import com.sudobangbang.graphql.model.Comment;
+import com.sudobangbang.graphql.model.comment.Comment;
 
 import java.util.List;
 

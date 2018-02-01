@@ -1,6 +1,9 @@
 package com.sudobangbang.graphql.resolver;
 
 import com.sudobangbang.graphql.model.*;
+import com.sudobangbang.graphql.model.comment.Comment;
+import com.sudobangbang.graphql.model.comment.CommentList;
+import com.sudobangbang.graphql.model.comment.HasComments;
 import com.sudobangbang.graphql.repository.BlogRepo;
 import com.sudobangbang.graphql.repository.CommentRepo;
 import com.sudobangbang.graphql.repository.LinkRepo;
