@@ -59,6 +59,7 @@ public class PostRepoMongo implements PostRepo {
         doc.append("blogId", post.getBlogId());
         doc.append("linkId", post.getLinkId());
         doc.append("createdAt", Scalars.dateTime.getCoercing().serialize(post.getCreatedAt()));
+        doc.append("voteTotal", post.getVoteTotal());
         posts.insertOne(doc);
 
         return post(doc);
@@ -69,7 +70,8 @@ public class PostRepoMongo implements PostRepo {
                 doc.get("_id").toString(),
                 doc.getString("blogId"),
                 doc.getString("linkId"),
-                ZonedDateTime.parse(doc.getString("createdAt"))
+                ZonedDateTime.parse(doc.getString("createdAt")),
+                doc.getInteger("voteTotal")
         );
     }
 }

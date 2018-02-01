@@ -50,6 +50,7 @@ public class CommentRepoMongo implements CommentRepo {
         doc.append("subjectId", comment.getSubjectId());
         doc.append("text", comment.getText());
         doc.append("createdAt", Scalars.dateTime.getCoercing().serialize(comment.getCreatedAt()));
+        doc.append("voteTotal", comment.getVoteTotal());
         comments.insertOne(doc);
 
         return comment(doc);
@@ -61,7 +62,8 @@ public class CommentRepoMongo implements CommentRepo {
                 doc.getString("userId"),
                 doc.getString("subjectId"),
                 doc.getString("text"),
-                ZonedDateTime.parse(doc.getString("createdAt"))
+                ZonedDateTime.parse(doc.getString("createdAt")),
+                doc.getInteger("voteTotal")
         );
     }
 

@@ -11,17 +11,19 @@ public class Comment implements CreatedByUser, HasComments, HasVotes {
     private final String subjectId;
     private final String text;
     private final ZonedDateTime createdAt;
+    private final Integer voteTotal;
 
-    public Comment(String userId, String subjectId, String text, ZonedDateTime createdAt) {
-        this(null, userId, subjectId, text, createdAt);
+    public Comment(String userId, String subjectId, String text, ZonedDateTime createdAt, Integer voteTotal) {
+        this(null, userId, subjectId, text, createdAt, voteTotal);
     }
 
-    public Comment(String id, String userId, String subjectId, String text, ZonedDateTime createdAt) {
+    public Comment(String id, String userId, String subjectId, String text, ZonedDateTime createdAt, Integer voteTotal) {
         this.id = id;
         this.userId = userId;
         this.subjectId = subjectId;
         this.text = text;
         this.createdAt = createdAt;
+        this.voteTotal = voteTotal;
     }
 
     public String getId() {
@@ -42,5 +44,10 @@ public class Comment implements CreatedByUser, HasComments, HasVotes {
 
     public ZonedDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public Integer getVoteTotal() {
+        return voteTotal;
     }
 }

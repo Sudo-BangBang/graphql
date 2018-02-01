@@ -23,7 +23,7 @@ public class CommentMutations {
             @GraphQLArgument(name = "subjectId") String subjectId,
             @GraphQLArgument(name = "text") String text,
             @GraphQLRootContext AuthContext context) {
-        Comment newComment = new Comment(context.getUser().getId(), subjectId, text, Instant.now().atZone(ZoneOffset.UTC));
+        Comment newComment = new Comment(context.getUser().getId(), subjectId, text, Instant.now().atZone(ZoneOffset.UTC), 0);
         return commentRepo.saveComment(newComment);
     }
 

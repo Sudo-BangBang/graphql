@@ -19,7 +19,7 @@ public class PostMutations {
     public Post createPost(
             @GraphQLArgument(name = "blogId") String blogId,
             @GraphQLArgument(name = "linkId") String linkId) {
-        Post newPost= new Post(blogId, linkId, Instant.now().atZone(ZoneOffset.UTC));
+        Post newPost= new Post(blogId, linkId, Instant.now().atZone(ZoneOffset.UTC), 0);
         return postRepo.savePost(newPost);
     }
 }
