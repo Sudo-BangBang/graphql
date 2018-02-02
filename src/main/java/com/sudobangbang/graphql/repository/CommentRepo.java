@@ -9,4 +9,5 @@ public interface CommentRepo {
     List<Comment> findByUserId(String userId);
     Comment findById(String commentId);
     Comment saveComment(Comment comment);
+    Comment updateComment(Comment comment);
 }

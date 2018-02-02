@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.sudobangbang.graphql.model.comment.Comment;
 import com.sudobangbang.graphql.model.Scalars;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.time.ZonedDateTime;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
 
 public class CommentRepoMongo implements CommentRepo {
     private final MongoCollection<Document> comments;
@@ -54,6 +57,20 @@ public class CommentRepoMongo implements CommentRepo {
         comments.insertOne(doc);
 
         return comment(doc);
+    }
+
+    @Override
+    public Comment updateComment(Comment comment) {
+        List<Bson> updates = new ArrayList<>();
+        if(comment.getText()!=null){
+            updates.add(set("text", comment.getText()));
+        }
+        if(comment.getVoteTotal()!=null){
+            updates.add(set("voteTotal", comment.getVoteTotal()));
+        }
+        comments.updateOne(eq("_id", new ObjectId(comment.getId())), combine(updates));
+
+        return findById(comment.getId());
     }
 
     private Comment comment(Document doc) {
