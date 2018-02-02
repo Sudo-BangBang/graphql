@@ -10,4 +10,5 @@ public interface PostRepo {
     List<Post> findByLinkId(String linkId);
     Post findById(String postId);
     Post savePost(Post post);
+    Post updatePost(Post post);
 }

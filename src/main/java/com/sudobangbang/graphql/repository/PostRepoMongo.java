@@ -1,9 +1,11 @@
 package com.sudobangbang.graphql.repository;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.result.UpdateResult;
 import com.sudobangbang.graphql.model.Post;
 import com.sudobangbang.graphql.model.Scalars;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.time.ZonedDateTime;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
 
 public class PostRepoMongo implements PostRepo {
 
@@ -63,6 +67,23 @@ public class PostRepoMongo implements PostRepo {
         posts.insertOne(doc);
 
         return post(doc);
+    }
+
+    @Override
+    public Post updatePost(Post post) {
+        List<Bson> updates = new ArrayList<>();
+        if(post.getBlogId()!=null){
+            updates.add(set("blogId", post.getBlogId()));
+        }
+        if(post.getLinkId()!=null){
+            updates.add(set("linkId", post.getLinkId()));
+        }
+        if(post.getVoteTotal()!=null){
+            updates.add(set("voteTotal", post.getVoteTotal()));
+        }
+        posts.updateOne(eq("_id", new ObjectId(post.getId())), combine(updates));
+
+        return findById(post.getId());
     }
 
     private Post post(Document doc) {
