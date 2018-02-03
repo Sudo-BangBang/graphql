@@ -1,4 +1,4 @@
-package com.sudobangbang.graphql.model;
+package com.sudobangbang.graphql.model.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

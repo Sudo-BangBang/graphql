@@ -1,7 +1,7 @@
 package com.sudobangbang.graphql.query;
 
 import com.sudobangbang.graphql.model.Link;
-import com.sudobangbang.graphql.model.LinkFilter;
+import com.sudobangbang.graphql.model.filter.LinkFilter;
 import com.sudobangbang.graphql.repository.LinkRepo;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLQuery;

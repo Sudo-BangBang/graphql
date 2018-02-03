@@ -3,7 +3,7 @@ package com.sudobangbang.graphql.repository;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.sudobangbang.graphql.model.Link;
-import com.sudobangbang.graphql.model.LinkFilter;
+import com.sudobangbang.graphql.model.filter.LinkFilter;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;

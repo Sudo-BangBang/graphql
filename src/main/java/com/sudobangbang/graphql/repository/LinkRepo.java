@@ -1,7 +1,7 @@
 package com.sudobangbang.graphql.repository;
 
 import com.sudobangbang.graphql.model.Link;
-import com.sudobangbang.graphql.model.LinkFilter;
+import com.sudobangbang.graphql.model.filter.LinkFilter;
 
 import java.util.List;
 
