@@ -41,9 +41,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     //TODO graphql-java does not currently support subscriptions, update when support is added
 
     static {
-        //TODO I should probably fix the db name, but I don't want to lose all my data
-        //If I do change it, remember to update the hardcoded auth token in index.html
-        MongoDatabase mongo = new MongoClient().getDatabase("gaphql_tutorial");
+        MongoDatabase mongo = new MongoClient().getDatabase("graphql_tutorial2");
         linkRepo = new LinkRepoMongo(mongo.getCollection("links"));
         userRepo = new UserRepoMongo(mongo.getCollection("users"));
         voteRepo = new VoteRepoMongo(mongo.getCollection("votes"));
@@ -66,7 +64,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         LinkMutations linkMutations = new LinkMutations(linkRepo, voteRepo);
         AuthMutations authMutations = new AuthMutations(userRepo);
         BlogMutations blogMutations = new BlogMutations(blogRepo);
-        PostMutations postMutations = new PostMutations(postRepo);
+        PostMutations postMutations = new PostMutations(postRepo, linkRepo);
         CommentMutations commentMutations = new CommentMutations(commentRepo);
         LinkResolver linkResolver = new LinkResolver(userRepo, voteRepo);
         VoteResolver voteResolver = new VoteResolver(linkRepo, userRepo, voteRepo);
