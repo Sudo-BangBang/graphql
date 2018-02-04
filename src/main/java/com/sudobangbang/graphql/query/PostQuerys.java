@@ -1,6 +1,7 @@
 package com.sudobangbang.graphql.query;
 
 import com.sudobangbang.graphql.model.Post;
+import com.sudobangbang.graphql.model.Sort;
 import com.sudobangbang.graphql.model.filter.PostFilter;
 import com.sudobangbang.graphql.repository.PostRepo;
 import io.leangen.graphql.annotations.GraphQLArgument;
@@ -18,9 +19,10 @@ public class PostQuerys {
 
     @GraphQLQuery
     public List<Post> allPosts(@GraphQLArgument(name = "filter") PostFilter filter,
+                               @GraphQLArgument(name = "sort") Sort sort,
                                @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
                                @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
-        return postRepo.getAllPosts(filter, skip.intValue(), first.intValue());
+        return postRepo.getAllPosts(filter, sort, skip.intValue(), first.intValue());
     }
 
     @GraphQLQuery

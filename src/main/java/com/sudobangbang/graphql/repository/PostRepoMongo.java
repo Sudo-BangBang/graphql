@@ -5,6 +5,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.result.UpdateResult;
 import com.sudobangbang.graphql.model.Post;
 import com.sudobangbang.graphql.model.Scalars;
+import com.sudobangbang.graphql.model.Sort;
 import com.sudobangbang.graphql.model.filter.PostFilter;
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -18,6 +19,8 @@ import java.util.Optional;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
+import static com.mongodb.client.model.Sorts.ascending;
+import static com.mongodb.client.model.Sorts.descending;
 import static com.mongodb.client.model.Updates.combine;
 import static com.mongodb.client.model.Updates.set;
 
@@ -30,13 +33,23 @@ public class PostRepoMongo implements PostRepo {
     }
 
     @Override
-    public List<Post> getAllPosts(PostFilter filter, int skip, int first) {
-
+    public List<Post> getAllPosts(PostFilter filter, Sort sort, int skip, int first) {
 
         Optional<Bson> mongoFilter = Optional.ofNullable(filter).map(this::buildFilter);
 
+
+        Bson mongoSort = descending("voteTotal");
+
+        if(sort != null){
+            if(sort.getAscending()){
+                mongoSort = ascending(sort.getField());
+            }else {
+                mongoSort = descending(sort.getField());
+            }
+        }
+
         List<Post> allPosts= new ArrayList<>();
-        FindIterable<Document> documents = mongoFilter.map(posts::find).orElseGet(posts::find);
+        FindIterable<Document> documents = mongoFilter.map(posts::find).orElseGet(posts::find).sort(mongoSort);
         for (Document doc : documents.skip(skip).limit(first)) {
             allPosts.add(post(doc));
         }

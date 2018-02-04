@@ -3,7 +3,7 @@ package com.sudobangbang.graphql.model;
 public class Sort {
 
     private String field;
-    private String order;
+    private Boolean ascending;
 
     public String getField() {
         return field;
@@ -13,11 +13,11 @@ public class Sort {
         this.field = field;
     }
 
-    public String getOrder() {
-        return order;
+    public Boolean getAscending() {
+        return ascending;
     }
 
-    public void setOrder(String order) {
-        this.order = order;
+    public void setAscending(Boolean ascending) {
+        this.ascending = ascending;
     }
 }
