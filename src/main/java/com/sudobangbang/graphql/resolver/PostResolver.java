@@ -8,6 +8,7 @@ import com.sudobangbang.graphql.repository.BlogRepo;
 import com.sudobangbang.graphql.repository.CommentRepo;
 import com.sudobangbang.graphql.repository.LinkRepo;
 import io.leangen.graphql.annotations.GraphQLContext;
+import io.leangen.graphql.annotations.GraphQLIgnore;
 import io.leangen.graphql.annotations.GraphQLQuery;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class PostResolver {
     }
 
     @GraphQLQuery
-    public Link postLink(@GraphQLContext Post post){
+    public Link link(@GraphQLContext Post post){
         return linkRepo.findById(post.getLinkId());
     }
 

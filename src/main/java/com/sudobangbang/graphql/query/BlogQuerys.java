@@ -15,12 +15,12 @@ public class BlogQuerys {
         this.blogRepo = blogRepo;
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Get all blogs")
     public List<Blog> allBlogs() {
         return blogRepo.getAllBlogs();
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Get a specific blog by its ID")
     public Blog getBlog(@GraphQLArgument(name = "id") String id){
         return blogRepo.findById(id);
     }

@@ -17,19 +17,4 @@ public class VoteQuerys {
         this.voteRepo = voteRepo;
     }
 
-    @GraphQLQuery
-    public List<Vote> getVotes(@GraphQLArgument(name = "userId") String userId, @GraphQLArgument(name = "subjectId") String subjectId) {
-        if (userId != null) {
-            return voteRepo.findByUserId(userId);
-        } else if (subjectId != null) {
-            return voteRepo.findBySubjectId(subjectId);
-        }else{
-            return voteRepo.getAllVotes();
-        }
-    }
-
-    @GraphQLQuery
-    public List<Vote> getMyVotes(@GraphQLRootContext AuthContext context) {
-        return voteRepo.findByUserId(context.getUser().getId());
-    }
 }

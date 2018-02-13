@@ -17,26 +17,16 @@ public class PostQuerys {
         this.postRepo = postRepo;
     }
 
-    @GraphQLQuery
-    public List<Post> allPosts(@GraphQLArgument(name = "filter") PostFilter filter,
-                               @GraphQLArgument(name = "sort") Sort sort,
+    @GraphQLQuery(description = "Get all posts with filters, pagination and sorting")
+    public List<Post> allPosts(@GraphQLArgument(name = "filter", description = "Get posts to a certain blog ID") PostFilter filter,
+                               @GraphQLArgument(name = "sort", description = "Set the field to sort on and the direction") Sort sort,
                                @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
                                @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
         return postRepo.getAllPosts(filter, sort, skip.intValue(), first.intValue());
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Gets a specific post by its ID")
     public Post getPost(@GraphQLArgument(name = "postId") String postId){
         return postRepo.findById(postId);
-    }
-
-    @GraphQLQuery
-    public List<Post> getBlogPosts(@GraphQLArgument(name = "blogId") String blogId){
-        return postRepo.findByBlogId(blogId);
-    }
-
-    @GraphQLQuery
-    public List<Post> getLinkPosts(@GraphQLArgument(name = "linkId") String linkId){
-        return postRepo.findByLinkId(linkId);
     }
 }

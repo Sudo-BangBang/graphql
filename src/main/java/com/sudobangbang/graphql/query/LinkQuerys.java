@@ -15,14 +15,14 @@ public class LinkQuerys {
         this.linkRepo = linkRepo;
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Get all links with filters and pagination")
     public List<Link> allLinks(@GraphQLArgument(name = "filter") LinkFilter filter,
                                @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
                                @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
         return linkRepo.getAllLinks(filter, skip.intValue(), first.intValue());
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Get a specific link by its ID")
     public Link getLink(@GraphQLArgument(name = "id") String id){
         return linkRepo.findById(id);
     }

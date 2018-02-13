@@ -15,18 +15,8 @@ public class CommentQuerys {
         this.commentRepo = commentRepo;
     }
 
-    @GraphQLQuery
+    @GraphQLQuery(description = "Get a specific comment by its ID")
     public Comment getComment(@GraphQLArgument(name = "id") String id){
         return commentRepo.findById(id);
-    }
-
-    @GraphQLQuery
-    public List<Comment> getPostComments(@GraphQLArgument(name = "subjectId") String subjectId){
-        return commentRepo.findBySubjectId(subjectId);
-    }
-
-    @GraphQLQuery
-    public List<Comment> getUsersComments(@GraphQLArgument(name = "userId") String userId){
-        return commentRepo.findByUserId(userId);
     }
 }
