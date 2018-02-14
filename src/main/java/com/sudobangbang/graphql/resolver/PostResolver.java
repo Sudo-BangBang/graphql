@@ -7,6 +7,7 @@ import com.sudobangbang.graphql.model.comment.HasComments;
 import com.sudobangbang.graphql.repository.BlogRepo;
 import com.sudobangbang.graphql.repository.CommentRepo;
 import com.sudobangbang.graphql.repository.LinkRepo;
+import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLIgnore;
 import io.leangen.graphql.annotations.GraphQLQuery;
@@ -30,8 +31,10 @@ public class PostResolver {
     }
 
     @GraphQLQuery
-    public CommentList commentList(@GraphQLContext HasComments subject){
-        List<Comment> comments = commentRepo.findBySubjectId(subject.getId());
+    public CommentList commentList(@GraphQLContext HasComments subject,
+                                   @GraphQLArgument(name = "skip", defaultValue = "0") Number skip,
+                                   @GraphQLArgument(name = "first", defaultValue = "0") Number first) {
+        List<Comment> comments = commentRepo.findBySubjectId(subject.getId(), skip.intValue(), first.intValue());
         return new CommentList(comments.size(), comments);
     }
 
@@ -39,4 +42,5 @@ public class PostResolver {
     public Blog blog(@GraphQLContext Post post){
         return blogRepo.findById(post.getBlogId());
     }
+
 }

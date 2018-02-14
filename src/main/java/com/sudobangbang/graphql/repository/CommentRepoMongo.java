@@ -23,9 +23,9 @@ public class CommentRepoMongo implements CommentRepo {
     }
 
     @Override
-    public List<Comment> findBySubjectId(String subjectId) {
+    public List<Comment> findBySubjectId(String subjectId,  Integer skip, Integer first) {
         List<Comment> list = new ArrayList<>();
-        for (Document doc : comments.find(eq("subjectId", subjectId))) {
+        for (Document doc : comments.find(eq("subjectId", subjectId)).skip(skip).limit(first)) {
             list.add(comment(doc));
         }
         return list;

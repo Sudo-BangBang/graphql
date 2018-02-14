@@ -37,7 +37,6 @@ public class PostRepoMongo implements PostRepo {
 
         Optional<Bson> mongoFilter = Optional.ofNullable(filter).map(this::buildFilter);
 
-
         Bson mongoSort = descending("voteTotal");
 
         if(sort != null){
@@ -57,11 +56,24 @@ public class PostRepoMongo implements PostRepo {
     }
 
     @Override
-    public List<Post> findByBlogId(String blogId) {
-        List<Post> list = new ArrayList<>();
-        for (Document doc : posts.find(eq("blogId", blogId))) {
+    public List<Post> findByBlogId(String blogId, Sort sort, int skip, int first) {
+
+        Bson mongoSort = descending("voteTotal");
+
+        if(sort != null){
+            if(sort.getAscending()){
+                mongoSort = ascending(sort.getField());
+            }else {
+                mongoSort = descending(sort.getField());
+            }
+        }
+
+        List<Post> list= new ArrayList<>();
+        FindIterable<Document> documents = posts.find(eq("blogId", blogId)).sort(mongoSort);
+        for (Document doc : documents.skip(skip).limit(first)) {
             list.add(post(doc));
         }
+
         return list;
     }
 

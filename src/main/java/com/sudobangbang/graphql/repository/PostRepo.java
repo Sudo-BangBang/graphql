@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PostRepo {
     List<Post> getAllPosts(PostFilter filter, Sort sort, int skip, int first);
-    List<Post> findByBlogId(String blogId);
+    List<Post> findByBlogId(String blogId, Sort sort, int skip, int first);
     List<Post> findByLinkId(String linkId);
     Post findById(String postId);
     Post savePost(Post post);
