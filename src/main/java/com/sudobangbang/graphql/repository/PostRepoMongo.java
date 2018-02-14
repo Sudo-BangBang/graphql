@@ -41,9 +41,9 @@ public class PostRepoMongo implements PostRepo {
 
         if(sort != null){
             if(sort.getAscending()){
-                mongoSort = ascending(sort.getField());
+                mongoSort = ascending(sort.getField().getFieldString());
             }else {
-                mongoSort = descending(sort.getField());
+                mongoSort = descending(sort.getField().getFieldString());
             }
         }
 
@@ -62,9 +62,9 @@ public class PostRepoMongo implements PostRepo {
 
         if(sort != null){
             if(sort.getAscending()){
-                mongoSort = ascending(sort.getField());
+                mongoSort = ascending(sort.getField().getFieldString());
             }else {
-                mongoSort = descending(sort.getField());
+                mongoSort = descending(sort.getField().getFieldString());
             }
         }
 

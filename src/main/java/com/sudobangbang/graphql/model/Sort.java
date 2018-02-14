@@ -2,14 +2,14 @@ package com.sudobangbang.graphql.model;
 
 public class Sort {
 
-    private String field;
+    private PostSortFieldEnum field;
     private Boolean ascending;
 
-    public String getField() {
+    public PostSortFieldEnum getField() {
         return field;
     }
 
-    public void setField(String field) {
+    public void setField(PostSortFieldEnum field) {
         this.field = field;
     }
 
